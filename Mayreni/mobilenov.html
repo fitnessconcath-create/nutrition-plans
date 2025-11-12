@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Plan de Nutrición - Mayreni (Mobile)</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* MOBILE-FIRST BASE STYLING */
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            font-family: 'Lato', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f8f6;
+            color: #2c2c2c;
+            line-height: 1.5;
+            font-size: 15px;
+            position: relative;
+        }
+        
+        /* FITNESSCONCATH BRAND WATERMARK */
+        .brand-watermark {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            z-index: 50;
+            background: rgba(184, 134, 11, 0.15);
+            border: 2px solid rgba(184, 134, 11, 0.3);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(-8deg);
+            backdrop-filter: blur(2px);
+            pointer-events: none;
+        }
+        .brand-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.6em;
+            color: #B8860B;
+            text-align: center;
+            line-height: 1.2;
+            letter-spacing: 0.5px;
+        }
+        .brand-text .fitness {
+            font-size: 1.1em;
+        }
+        .brand-text .con {
+            font-size: 0.8em;
+            opacity: 0.8;
+        }
+        .brand-text .cath {
+            font-size: 1.2em;
+            color: #1D637A;
+        }
+        .brand-year {
+            font-size: 0.5em;
+            margin-top: 2px;
+            opacity: 0.7;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: none;
+        }
+        .header {
+            background: linear-gradient(135deg, #1D637A 0%, #2a8ca3 100%);
+            color: white;
+            padding: 20px 15px;
+            text-align: center;
+            position: relative;
+        }
+        .header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.6em;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+        .header p {
+            font-size: 0.8em;
+            text-align: center;
+            margin: 0 auto;
+            opacity: 0.9;
+            font-weight: 300;
+            line-height: 1.5;
+        }
+        
+        /* ENHANCED SHOPPING BUTTON - MORE VISIBLE */
+        .shopping-btn-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+        .shopping-btn {
+            background: linear-gradient(to bottom, #B8860B, #D4AF37);
+            color: white;
+            border: none;
+            padding: 14px 18px;
+            border-radius: 50px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.85em;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(184, 134, 11, 0.4);
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-width: 140px;
+            height: 50px;
+        }
+        .shopping-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(184, 134, 11, 0.5);
+        }
+        .shopping-btn::before {
+            content: '🛒';
+            font-size: 1.4em;
+        }
+        
+        /* MOBILE DAY SECTIONS */
+        .day-section {
+            margin-bottom: 30px;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .day-label {
+            background: linear-gradient(to right, #B8860B, #D4AF37);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.85em;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px;
+        }
+        
+        /* MOBILE MEAL CARDS */
+        .meal-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            padding: 15px;
+        }
+        .meal-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #eee;
+        }
+        .meal-header {
+            background: #f7f7f7;
+            padding: 12px 15px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.85em;
+            color: #1D637A;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .meal-content {
+            padding: 15px;
+        }
+        .meal-content h4 {
+            color: #1D637A;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.1em;
+            margin: 0 0 10px 0;
+        }
+        .meal-content ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0 0 12px 0;
+            font-size: 0.85em;
+            color: #555;
+            line-height: 1.4;
+        }
+        .meal-content ul li {
+            margin-bottom: 4px;
+            padding-left: 12px;
+            position: relative;
+        }
+        .meal-content ul li::before {
+            content: '•';
+            color: #C0A062;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        /* MOBILE FLIP CARDS - FIXED HEIGHT */
+        .image-flip-container {
+            width: 100%;
+            height: 180px;
+            perspective: 1000px;
+            cursor: pointer;
+            position: relative;
+        }
+        .flip-card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .flip-card.flipped {
+            transform: rotateY(180deg);
+        }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+        .card-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #1D637A 0%, #2a8ca3 50%, #1D637A 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            text-align: center;
+        }
+        .card-back h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9em;
+            margin: 0 0 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding-bottom: 8px;
+            font-weight: 600;
+        }
+        .nutrition-item {
+            font-size: 0.85em;
+            margin: 4px 0;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .card-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* CLICK HINT */
+        .nutrition-hint {
+            font-size: 0.7em;
+            color: #aaa;
+            text-align: center;
+            margin-top: 6px;
+            font-style: italic;
+            letter-spacing: 0.5px;
+        }
+        
+        /* MODAL STYLES - NOW IT POPS UP CENTERED */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            backdrop-filter: blur(3px);
+        }
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+        .modal-header {
+            background: linear-gradient(135deg, #1D637A 0%, #2a8ca3 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+        }
+        .modal-header h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2em;
+            margin: 0;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8em;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .close-btn:hover {
+            color: #FFD700;
+        }
+        .shopping-category {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .shopping-category h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: #1D637A;
+            font-size: 1em;
+            margin: 0 0 10px 0;
+        }
+        .shopping-item {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9em;
+        }
+        .shopping-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .shopping-item.checked label {
+            text-decoration: line-through;
+            opacity: 0.5;
+        }
+        
+        /* DESKTOP WATERMARK */
+        .desktop-watermark {
+            display: none;
+        }
+        
+        /* DESKTOP VERSION (768px and up) */
+        @media (min-width: 768px) {
+            body {
+                margin: 20px;
+                font-size: 14px;
+            }
+            .brand-watermark {
+                bottom: 30px;
+                right: 30px;
+                width: 100px;
+                height: 100px;
+            }
+            .brand-text {
+                font-size: 0.7em;
+            }
+            .container {
+                border-radius: 12px;
+                box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            }
+            .header {
+                padding: 35px 30px;
+            }
+            .header h1 {
+                font-size: 2.2em;
+            }
+            .header p {
+                font-size: 0.95em;
+            }
+            .shopping-btn-container {
+                position: absolute;
+                top: 30px;
+                right: 30px;
+                bottom: auto;
+            }
+            .shopping-btn {
+                padding: 12px 22px;
+                border-radius: 8px;
+                font-size: 0.85em;
+            }
+            
+            /* Show desktop table, hide mobile cards */
+            .desktop-table {
+                display: table;
+                width: 100%;
+                border-collapse: separate;
+                border-spacing: 0;
+            }
+            .mobile-cards {
+                display: none;
+            }
+            
+            thead {
+                display: table-header-group;
+            }
+            tbody {
+                display: table-row-group;
+            }
+            tr {
+                display: table-row;
+            }
+            td {
+                display: table-cell;
+                width: 25% !important;
+                border-bottom: 1px solid #eee;
+                padding: 25px 20px;
+            }
+            .day-label {
+                margin: 0;
+                width: auto;
+                border-radius: 0;
+            }
+            .image-flip-container {
+                height: 150px;
+                margin-top: 12px;
+            }
+            .modal-content {
+                width: auto;
+                max-width: 600px;
+                max-height: 80vh;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- FITNESSCONCATH BRAND WATERMARK -->
+    <div class="brand-watermark">
+        <div class="brand-text">
+            <span class="fitness">FITNESS</span><br>
+            <span class="con">con</span><br>
+            <span class="cath">CATH</span>
+        </div>
+        <div class="brand-year">2025</div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Plan de Nutrición Personalizado</h1>
+            <p>Este plan de nutrición se basa en una distribución de macronutrientes de 30% carbohidratos / 30% proteína / 40% grasas. Considerando estatura, sexo, edad, peso y nivel de actividad de <strong>Mayreni</strong>, se estima un promedio de 1,400 kcal/día para un déficit saludable (≈105 g CHO, 105 g proteína, 62 g grasas). Se favorecen carbohidratos no procesados y grasas saludables. Recomendación de hidratación: ≥ 2 L/día.</p>
+            
+            <!-- ENHANCED SHOPPING BUTTON WITH TEXT -->
+            <div class="shopping-btn-container">
+                <button class="shopping-btn" onclick="document.getElementById('shoppingModal').style.display='block'" title="Lista de Compra">
+                    <span class="btn-text">LISTA DE COMPRAS</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- MOBILE CARDS -->
+        <div class="mobile-cards">
+            <!-- (All your existing meal cards remain exactly the same here) -->
+            <!-- Lunes & Martes -->
+            <div class="day-section">
+                <div class="day-label">Lunes & Martes</div>
+                <div class="meal-grid">
+                    <div class="meal-card">
+                        <div class="meal-header">Desayuno</div>
+                        <div class="meal-content">
+                            <h4>Huevos Revueltos</h4>
+                            <ul>
+                                <li>2 huevos + 2 claras</li>
+                                <li>1/2 tomate, 1/4 taza vegetales</li>
+                                <li>1/4 aguacate pequeño</li>
+                                <li>1 taza café con leche 2%</li>
+                            </ul>
+                            <div class="image-flip-container" onclick="this.querySelector('.flip-card').classList.toggle('flipped')">
+                                <div class="flip-card">
+                                    <div class="card-face card-front">
+                                        <img src="https://www.eatingwell.com/thmb/og3vFEDmu8NKfvl3YQ7OgcOPDuo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/6599213-99c8341a66b9419088d243f1a4bb5a1a.jpg" alt="Huevos Revueltos">
+                                    </div>
+                                    <div class="card-face card-back">
+                                        <h5>Información Nutricional</h5>
+                                        <div class="nutrition-item">🔥 315 Cal</div>
+                                        <div class="nutrition-item">🏋️ 21g Proteína</div>
+                                        <div class="nutrition-item">🍞 12g Carbs</div>
+                                        <div class="nutrition-item">🥑 22g Grasas</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nutrition-hint">Click to see nutrition</div>
+                        </div>
+                    </div>
+                    
+                    <div class="meal-card">
+                        <div class="meal-header">Almuerzo</div>
+                        <div class="meal-content">
+                            <h4>Pechuga de Pollo</h4>
+                            <ul>
+                                <li>5 oz pollo a la plancha</li>
+                                <li>1/2 taza arroz cocido</li>
+                                <li>1 taza ensalada variada</li>
+                                <li>1 cdta. aceite de oliva</li>
+                            </ul>
+                            <div class="image-flip-container" onclick="this.querySelector('.flip-card').classList.toggle('flipped')">
+                                <div class="flip-card">
+                                    <div class="card-face card-front">
+                                        <img src="https://www.daisybrand.com/wp-content/uploads/2019/12/grilled-chicken-salad-avoc770x628_9083.jpg" alt="Pollo y Ensalada">
+                                    </div>
+                                    <div class="card-face card-back">
+                                        <h5>Información Nutricional</h5>
+                                        <div class="nutrition-item">🔥 445 Cal</div>
+                                        <div class="nutrition-item">🏋️ 45g Proteína</div>
+                                        <div class="nutrition-item">🍞 28g Carbs</div>
+                                        <div class="nutrition-item">🥑 17g Grasas</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nutrition-hint">Click to see nutrition</div>
+                        </div>
+                    </div>
+                    
+                    <div class="meal-card">
+                        <div class="meal-header">Merienda</div>
+                        <div class="meal-content">
+                            <h4>Yogur con Piña</h4>
+                            <ul>
+                                <li>5.3 oz yogur griego natural</li>
+                                <li>1 taza piña picada</li>
+                                <li>1 cda. semillas de chía</li>
+                            </ul>
+                            <div class="image-flip-container" onclick="this.querySelector('.flip-card').classList.toggle('flipped')">
+                                <div class="flip-card">
+                                    <div class="card-face card-front">
+                                        <img src="https://cloudfront-us-east-1.images.arcpublishing.com/elespectador/MAUEIRO3UJEYHA6LINXLNNOWTU.jpg" alt="Yogur con Piña">
+                                    </div>
+                                    <div class="card-face card-back">
+                                        <h5>Información Nutricional</h5>
+                                        <div class="nutrition-item">🔥 260 Cal</div>
+                                        <div class="nutrition-item">🏋️ 17g Proteína</div>
+                                        <div class="nutrition-item">🍞 35g Carbs</div>
+                                        <div class="nutrition-item">🥑 6g Grasas</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nutrition-hint">Click to see nutrition</div>
+                        </div>
+                    </div>
+                    
+                    <div class="meal-card">
+                        <div class="meal-header">Cena</div>
+                        <div class="meal-content">
+                            <h4>Filete de Pescado</h4>
+                            <ul>
+                                <li>6 oz pescado blanco</li>
+                                <li>1.5 tazas brócoli/zanahoria</li>
+                                <li>Limón y hierbas al gusto</li>
+                            </ul>
+                            <div class="image-flip-container" onclick="this.querySelector('.flip-card').classList.toggle('flipped')">
+                                <div class="flip-card">
+                                    <div class="card-face card-front">
+                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvEVq5JsYItD1rYGWjsiEihdumAm8oIHZnyw&s" alt="Pescado y Vegetales">
+                                    </div>
+                                    <div class="card-face card-back">
+                                        <h5>Información Nutricional</h5>
+                                        <div class="nutrition-item">🔥 275 Cal</div>
+                                        <div class="nutrition-item">🏋️ 40g Proteína</div>
+                                        <div class="nutrition-item">🍞 12g Carbs</div>
+                                        <div class="nutrition-item">🥑 8g Grasas</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nutrition-hint">Click to see nutrition</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Miércoles & Jueves -->
+            <div class="day-section">
+                <div class="day-label">Miércoles & Jueves</div>
+                <div class="meal-grid">
+                    <div class="meal-card">
+                        <div class="meal-header">Desayuno</div>
+                        <div class="meal-content">
+                            <h4>Avena "Overnight"</h4>
+                            <ul>
+                                <li>1/2 taza avena en hojuelas</li>
+                                <li>3/4 taza leche de almendra</li>
+                                <li>1/2 scoop proteína (opcional)</li>
+                                <li>1/2 taza berries</li>
+                            </ul>
+                            <div class="image-flip-container" onclick="this.querySelector('.flip-card').classList.toggle('flipped')">
+                                <div class="flip-card">
+                                    <div class="card-face card-front">
+                                        <img src="https://aguabela.com.mx/images/blog/avena-trasnochada-desayuno-perfecto-receta.jpg" alt="Avena">
+                                    </div>
+                                    <div class="card-face card-back">
+                                        <h5>Información Nutricional</h5>
+                                        <div class="nutrition-item">🔥 320 Cal</div>
+                                        <div class="nutrition-item">🏋️ 23g Proteína</div>
+                                        <div class="nutrition-item">🍞 48g Carbs</div>
+                                        <div class="nutrition-item">🥑 5g Grasas</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nutrition-hint">Click to see nutrition</div>
+                        </div>
+                    </div>
+                    
+                    <div class="meal-card">
+                        <div class="meal-header">Almuerzo</div>
+                        <div class="meal-content">
+                            <h4>Carne Molida</h4>
+                            <ul>
+                                <li>5 oz carne de res 90% magra</li>
+                                <li>1/4 taza salsa de tomate</li>
+                                <li>3/4 taza batata hervida</li>
+                                <li>1 taza ensalada verde</li>
+                            </ul>
+                            <div class="image-flip-container" onclick="this.querySelector('.flip-card').classList.toggle('flipped')">
+                                <div class="flip-card">
+                                    <div class="card-face card-front">
+                                        <img src="https://vaquitabowls.com/data/meals/16.jpg" alt="Carne con Batata">
+                                    </div>
+                                    <div class="card-face card-back">
+                                        <h5>Información Nutricional</h5>
+                                        <div class="nutrition-item">🔥 410 Cal</div>
+                                        <div class="nutrition-item">🏋️ 38g Proteína</div>
+                                        <div class="nutrition-item">🍞 36g Carbs</div>
+                                        <div class="nutrition-item">🥑 12g Grasas</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nutrition-hint">Click to see nutrition</div>
+                        </div>
+                    </div>
+                    
+                    <div class="meal-card">
+                        <div class="meal-header">Merienda</div>
+                        <div class="meal-content">
+                            <h4>Snack de Pepino</h4>
+                            <ul>
+                                <li>1 taza pepino en rodajas</li>
+                                <li>1 taza tomates cherry</li>
+                                <li>1 huevo hervido</li>
+                            </ul>
+                            <div class="image-flip-container" onclick="this.querySelector('.flip-card').classList.toggle('flipped')">
+                                <div class="flip-card">
+                                    <div class="card-face card-front">
+                                        <img src="https://comedera.com/wp-content/uploads/sites/9/2022/07/ensalada-de-pepino-con-tomate.jpg?fit=1200,800&crop=0px,63px,1200px,675px" alt="Snack de Pepino">
+                                    </div>
+                                    <div class="card-face card-back">
+                                        <h5>Información Nutricional</h5>
+                                        <div class="nutrition-item">🔥 120 Cal</div>
+                                        <div class="nutrition-item">🏋️ 7g Proteína</div>
+                                        <div class="nutrition-item">🍞 10g Carbs</div>
+                                        <div class="nutrition-item">🥑 6g Grasas</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nutrition-hint">Click to see nutrition</div>
+                        </div>
+                    </div>
+                    
+                    <div class="meal-card">
+                        <div class="meal-header">Cena</div>
+                        <div class="meal-content">
+                            <h4>Tacos de Lechuga</h4>
+                            <ul>
+                                <li>5 oz pavo molido sazonado</li>
+                                <li>4 hojas lechuga grande</li>
+                                <li>1/4 aguacate</li>
+                            </ul>
+                            <div class="image-flip-container" onclick="this.querySelector('.flip-card').classList.toggle('flipped')">
+                                <div class="flip-card">
+                                    <div class="card-face card-front">
+                                        <img src="https://www.slenderkitchen.com/sites/default/files/styles/data_share/public/recipe_images/turkey-taco-lettuce-wraps.jpg" alt="Tacos de Lechuga">
+                                    </div>
+                                    <div class="card-face card-back">
+                                        <h5>Información Nutricional</h5>
+                                        <div class="nutrition-item">🔥 300 Cal</div>
+                                        <div class="nutrition-item">🏋️ 34g Proteína</div>
+                                        <div class="nutrition-item">🍞 8g Carbs</div>
+                                        <div class="nutrition-item">🥑 16g Grasas</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nutrition-hint">Click to see nutrition</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Viernes & Sábado -->
+            <div class="day-section">
+                <div class="day-label">Viernes & Sábado</div>
+                <div class="meal-grid">
+                    <div class="meal-card">
+                        <div class="meal-header">Desayuno</div>
+                        <div class="meal-content">
+                            <h4>Batido de Proteína</h4>
+                            <ul>
+                                <li>1 scoop proteína en polvo</li>
+                                <li>1 taza piña congelada</li>
+                                <li>1 taza leche de almendra</li>
+                                <li>1 puñado espinaca</li>
+                            </ul>
+                            <div class="image-flip-container" onclick="this.querySelector('.flip-card').classList.toggle('flipped')">
+                                <div class="flip-card">
+                                    <div class="card-face card-front">
+                                        <img src="https://www.infobae.com/resizer/v2/HFBTJ7R3IZBYXPHRX75FZ5ZQYQ.jpg?auth=9a108cede41eb01a9013d7f293fdc03f37ee33b2383a0c22118bd286a9712f3e&smart=true&width=350&height=196&quality=85" alt="Batido de Proteína">
+                                    </div>
+                                    <div class="card-face card-back">
+                                        <h5>Información Nutricional</h5>
+                                        <div class="nutrition-item">🔥 255 Cal</div>
+                                        <div class="nutrition-item">🏋️ 27g Proteína</div>
+                                        <div class="nutrition-item">🍞 32g Carbs</div>
+                                        <div class="nutrition-item">🥑 3g Grasas</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nutrition-hint">Click to see nutrition</div>
+                        </div>
+                    </div>
+                    
+                    <div class="meal-card">
+                        <div class="meal-header">Almuerzo</div>
+                        <div class="meal-content">
+                            <h4>Chuleta de Cerdo</h4>
+                            <ul>
+                                <li>5 oz chuleta magra</li>
+                                <li>1/2 taza piña y pepino</li>
+                                <li>1/4 taza pimentón</li>
+                                <li>Cilantro y limón</li>
+                            </ul>
+                            <div class="image-flip-container" onclick="this.querySelector('.flip-card').classList.toggle('flipped')">
+                                <div class="flip-card">
+                                    <div class="card-face card-front">
+                                        <img src="https://s-api.qcart.app/images/comoquiero-uploads/images/recipes/originals/191.jpg?s=716x600&fit=cover&ext=webp" alt="Chuleta de Cerdo">
+                                    </div>
+                                    <div class="card-face card-back">
+                                        <h5>Información Nutricional</h5>
+                                        <div class="nutrition-item">🔥 365 Cal</div>
+                                        <div class="nutrition-item">🏋️ 38g Proteína</div>
+                                        <div class="nutrition-item">🍞 15g Carbs</div>
+                                        <div class="nutrition-item">🥑 16g Grasas</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nutrition-hint">Click to see nutrition</div>
+                        </div>
+                    </div>
+                    
+                    <div class="meal-card">
+                        <div class="meal-header">Merienda</div>
+                        <div class="meal-content">
+                            <h4>Tostada de Aguacate</h4>
+                            <ul>
+                                <li>1 rebanada pan integral</li>
+                                <li>1/2 aguacate majado</li>
+                                <li>1/2 tomate en rodajas</li>
+                            </ul>
+                            <div class="image-flip-container" onclick="this.querySelector('.flip-card').classList.toggle('flipped')">
+                                <div class="flip-card">
+                                    <div class="card-face card-front">
+                                        <img src="https://veggiefestchicago.org/wp-content/uploads/2018/12/BreadAvocato2.jpg" alt="Tostada de Aguacate">
+                                    </div>
+                                    <div class="card-face card-back">
+                                        <h5>Información Nutricional</h5>
+                                        <div class="nutrition-item">🔥 270 Cal</div>
+                                        <div class="nutrition-item">🏋️ 7g Proteína</div>
+                                        <div class="nutrition-item">🍞 24g Carbs</div>
+                                        <div class="nutrition-item">🥑 17g Grasas</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nutrition-hint">Click to see nutrition</div>
+                        </div>
+                    </div>
+                    
+                    <div class="meal-card">
+                        <div class="meal-header">Cena</div>
+                        <div class="meal-content">
+                            <h4>Pinchos de Pollo</h4>
+                            <ul>
+                                <li>5 oz pechuga en cubos</li>
+                                <li>1 taza vegetales asados</li>
+                                <li>1/2 taza quinoa cocida</li>
+                            </ul>
+                            <div class="image-flip-container" onclick="this.querySelector('.flip-card').classList.toggle('flipped')">
+                                <div class="flip-card">
+                                    <div class="card-face card-front">
+                                        <img src="https://www.coren.es/wp-content/uploads/2018/07/Brochetas-de-pollo-y-verduras.jpeg" alt="Pinchos de Pollo">
+                                    </div>
+                                    <div class="card-face card-back">
+                                        <h5>Información Nutricional</h5>
+                                        <div class="nutrition-item">🔥 500 Cal</div>
+                                        <div class="nutrition-item">🏋️ 44g Proteína</div>
+                                        <div class="nutrition-item">🍞 34g Carbs</div>
+                                        <div class="nutrition-item">🥑 21g Grasas</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nutrition-hint">Click to see nutrition</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SHOPPING LIST MODAL - NOW WITH PROPER OVERLAY -->
+        <div id="shoppingModal" class="modal-overlay" onclick="if(event.target===this) this.style.display='none'">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Lista de Compras - 6 Días</h2>
+                    <button class="close-btn" onclick="document.getElementById('shoppingModal').style.display='none'">&times;</button>
+                </div>
+                
+                <div class="shopping-category">
+                    <h3>Proteínas</h3>
+                    <div class="shopping-item"><input type="checkbox" id="item1"><label for="item1">4 huevos enteros + 4 claras</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item2"><label for="item2">20 oz pechuga de pollo</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item3"><label for="item3">10 oz carne molida (90% magra)</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item4"><label for="item4">10 oz pavo molido</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item5"><label for="item5">10 oz chuleta de cerdo (magra)</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item6"><label for="item6">12 oz filete de pescado blanco</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item7"><label for="item7">10.6 oz yogur griego natural</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item8"><label for="item8">3 scoops proteína en polvo</label></div>
+                </div>
+                
+                <div class="shopping-category">
+                    <h3>Frutas & Verduras</h3>
+                    <div class="shopping-item"><input type="checkbox" id="item9"><label for="item9">3 tomates medianos</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item10"><label for="item10">2 aguacates medianos</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item11"><label for="item11">5 tazas de piña fresca/congelada</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item12"><label for="item12">5 tazas de pepino</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item13"><label for="item13">3 tazas de brócoli/zanahoria</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item14"><label for="item14">1.5 tazas de batata (camote)</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item15"><label for="item15">1 taza de berries variados</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item16"><label for="item16">2 tazas de tomates cherry</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item17"><label for="item17">1/2 taza de pimentón</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item18"><label for="item18">2 tazas de espinaca fresca</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item19"><label for="item19">1 cabeza de lechuga</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item20"><label for="item20">Cebolla y ajíes al gusto</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item21"><label for="item21">Cilantro fresco</label></div>
+                </div>
+                
+                <div class="shopping-category">
+                    <h3>Granos & Legumbres</h3>
+                    <div class="shopping-item"><input type="checkbox" id="item22"><label for="item22">1 taza de arroz integral</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item23"><label for="item23">1 taza de quinoa</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item24"><label for="item24">1 taza de avena en hojuelas</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item25"><label for="item25">2 rebanadas de pan integral</label></div>
+                </div>
+                
+                <div class="shopping-category">
+                    <h3>Lácteos & Alternativas</h3>
+                    <div class="shopping-item"><input type="checkbox" id="item26"><label for="item26">3.5 tazas de leche de almendra</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item27"><label for="item27">1/2 taza de leche 2%</label></div>
+                </div>
+                
+                <div class="shopping-category">
+                    <h3>Despensa & Aceites</h3>
+                    <div class="shopping-item"><input type="checkbox" id="item28"><label for="item28">2 cda. semillas de chía</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item29"><label for="item29">5 cda. aceite de oliva</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item30"><label for="item30">1/2 taza salsa de tomate</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item31"><label for="item31">Canela molida</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item32"><label for="item32">Sal, pimienta, limón</label></div>
+                    <div class="shopping-item"><input type="checkbox" id="item33"><label for="item33">Café para preparar</label></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check functionality
+        document.querySelectorAll('.shopping-item input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                if(this.checked) {
+                    this.parentElement.classList.add('checked');
+                } else {
+                    this.parentElement.classList.remove('checked');
+                }
+            });
+        });
+        
+        // Close modal on escape key
+        document.addEventListener('keydown', function(e) {
+            if(e.key === 'Escape') {
+                document.getElementById('shoppingModal').style.display = 'none';
+            }
+        });
+    </script>
+
+</body>
+</html>
